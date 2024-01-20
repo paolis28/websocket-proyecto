@@ -1,0 +1,11 @@
+.containerCarrusel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.imgCarrusel{
+    width: 90%;
+    height: 500px;
+    margin-left: 12%;
+    margin-top: 5%;
+}
