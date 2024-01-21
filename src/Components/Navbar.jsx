@@ -1,19 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/Navbar.css";
 import imgInicioSesion from "../img/inicioSesion.png";
 import imgLogoHaxo from "../img/LogoHaxo.png";
 import { NavLink } from "react-router-dom";
 import { Modal, Button, Form } from 'react-bootstrap';
-import { useState } from "react";
 import axios from "axios";
+import Swal from 'sweetalert2';
 import ModalRegistrar from './ModalRegistrar';
-import Swal from 'sweetalert2'
 
 const NavbarGLobal = () => {
     const [show, setShow] = useState(false);
     const [showRegistro, setShowRegistro] = useState(false);
     const [nombre, setNombre] = useState("");
     const [contrasena, setContrasena] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // Nuevo estado para seguir si el usuario ha iniciado sesión
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -23,7 +23,7 @@ const NavbarGLobal = () => {
 
     const handleiniciarSesion = async (e) => {
         e.preventDefault();
-        try{
+        try {
             const IniSesion = await axios.get(
                 "http://localhost:3000/apiWebsocket/Usuario/conseguirUsuario",
                 {
@@ -39,13 +39,15 @@ const NavbarGLobal = () => {
                 Swal.fire({
                     icon: "success",
                     text: `Bienvenido ${nombre}`
-                  });
-                setNombre("");
+                });
+                setIsLoggedIn(true); // Establecer el estado a true cuando el inicio de sesión sea exitoso
+                setNombre(IniSesion.data.usuario.nombre);
                 setContrasena("");
+                handleClose(true)
             } else {
                 alert("Usuario no registrado");
             }
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
     };
@@ -79,10 +81,16 @@ const NavbarGLobal = () => {
                     </div>
 
                     <div className="containerSesion">
-                        <img src={imgInicioSesion} alt="" />
-                        <label onClick={handleShow}>Ingresar</label>{' '}
-                        <label onClick={handleShowRegistro}>Registrar</label>
-                        {showRegistro && <ModalRegistrar handleCloseRegistro={handleCloseRegistro} />}
+                        {isLoggedIn ? (
+                            <span>Hola,{nombre}</span>
+                        ) : (
+                            <>
+                                <img src={imgInicioSesion} alt="" />
+                                <label onClick={handleShow}>Ingresar</label>{' '}
+                                <label onClick={handleShowRegistro}>Registrar</label>
+                                {showRegistro && <ModalRegistrar handleCloseRegistro={handleCloseRegistro} />}
+                            </>
+                        )}
                     </div>
                 </nav>
             </header>
