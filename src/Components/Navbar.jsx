@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// Importa los módulos necesarios y los componentes
+import React, { useEffect, useState } from "react";
 import "../styles/Navbar.css";
 import imgInicioSesion from "../img/inicioSesion.png";
 import imgLogoHaxo from "../img/LogoHaxo.png";
@@ -13,7 +14,15 @@ const NavbarGLobal = () => {
     const [showRegistro, setShowRegistro] = useState(false);
     const [nombre, setNombre] = useState("");
     const [contrasena, setContrasena] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Nuevo estado para seguir si el usuario ha iniciado sesión
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(()=>{
+        const GuardarInicio = localStorage.getItem('isLoggedIn');
+        if(GuardarInicio){
+            setIsLoggedIn(true);
+            setNombre(localStorage.getItem('nombre'));
+        }
+    })
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -25,7 +34,7 @@ const NavbarGLobal = () => {
         e.preventDefault();
         try {
             const IniSesion = await axios.get(
-                "http://localhost:3000/apiWebsocket/Usuario/conseguirUsuario",
+                "http://localhost:3000/Usuario/conseguirUsuario",
                 {
                     params: {
                         nombre,
@@ -40,7 +49,9 @@ const NavbarGLobal = () => {
                     icon: "success",
                     text: `Bienvenido ${nombre}`
                 });
-                setIsLoggedIn(true); // Establecer el estado a true cuando el inicio de sesión sea exitoso
+                localStorage.setItem('isLoggedIn',true);
+                localStorage.setItem('nombre',IniSesion.data.usuario.nombre);
+                setIsLoggedIn(true); 
                 setNombre(IniSesion.data.usuario.nombre);
                 setContrasena("");
                 handleClose(true)
@@ -51,6 +62,13 @@ const NavbarGLobal = () => {
             console.log(error);
         }
     };
+
+    const handleCerrarSesion = ()=>{
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('nombre');
+        setIsLoggedIn(false)
+        setNombre("");
+    }
 
     return (
         <>
@@ -74,15 +92,21 @@ const NavbarGLobal = () => {
                                 Paquetes
                             </NavLink>
 
-                            <NavLink to="/Chat" className="links">
-                                Chat
-                            </NavLink>
+                            {/* Renderiza el enlace al chat solo si el usuario ha iniciado sesión */}
+                            {isLoggedIn && (
+                                <NavLink to="/Chat" className="links">
+                                    Chat
+                                </NavLink>
+                            )}
                         </ul>
                     </div>
 
                     <div className="containerSesion">
                         {isLoggedIn ? (
-                            <span>Hola,{nombre}</span>
+                            <>
+                                <span>Hola, {nombre}</span>
+                                <button onClick={handleCerrarSesion}>Cerrar Sesion</button>
+                            </>
                         ) : (
                             <>
                                 <img src={imgInicioSesion} alt="" />

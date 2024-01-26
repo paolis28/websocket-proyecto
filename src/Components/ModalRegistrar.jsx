@@ -11,7 +11,7 @@ const Registrar = ({ handleCloseRegistro }) => {
         e.preventDefault();
         try {
             const registro = await axios.post(
-                "http://localhost:3000/apiWebsocket/Usuario/crearUsuario",
+                "http://localhost:3000/Usuario/crearUsuario",
                 {
                     nombre,
                     contrasena

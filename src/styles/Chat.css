@@ -1,0 +1,41 @@
+.containerGlobalChat{
+    /* background-color: aqua; */
+    width: 80%;
+    height: 60%;
+    padding: 2%;
+    position: absolute;
+}
+
+.ul-mensajes{
+    background-color: #ebe700;
+}
+
+.li-mensajes{
+    list-style: none;
+    color: rgb(0, 0, 0);
+}
+
+.formMensajes{
+    /* background-color: rgba(243, 243, 243, 0.763); */
+    width: 80%;
+    border: 1px solid #60006245;
+    /* justify-content: flex-end;
+    display: flex;
+    flex-direction: column; */
+}
+
+.formMensajes > input{
+    background-color: rgba(255, 255, 255, 0.705);
+    width: 85%;
+    font-size: 1.3em;
+    outline: rgb(216, 216, 216);
+    border-radius: 5px;
+}
+
+.formMensajes > button{
+    background-color: #600062d2;
+    width: 15%;
+    font-size: 1.3em;
+    border-radius: 5px;
+    color: #ebe700;
+}
