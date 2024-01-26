@@ -13,8 +13,10 @@ const Registrar = ({ handleCloseRegistro }) => {
             const registro = await axios.post(
                 "http://localhost:3000/Usuario/crearUsuario",
                 {
-                    nombre,
-                    contrasena
+                    params: {
+                        nombre,
+                        contrasena
+                    }
                 }
             );
             console.log(registro);

@@ -7,9 +7,15 @@ import '../styles/Chat.css'
 const Chat= ()=>{
     const [messages, setMessages] = useState([]);
     const [messageInput, setMessageInput] = useState('');
+    const [nombre, setNombre] = useState("");
     const socket = io('http://localhost:3000', { transports: ['websocket'], withCredentials: false });
   
     useEffect(() => {
+        const UsuarioIniciado = localStorage.getItem('nombre');
+        if (UsuarioIniciado) {
+            setNombre(UsuarioIniciado);
+        }
+        
         socket.on('chat message', (message) => {
             console.log('Mensaje recibido:', message);
             setMessages((prevMessages) => [...prevMessages, message]);
@@ -22,7 +28,8 @@ const Chat= ()=>{
   
     const handleSendMessage = (e) => {
       e.preventDefault();
-      socket.emit('chat message', messageInput);
+      const message = `${nombre}: ${messageInput}`;
+      socket.emit('chat message', message);
       setMessageInput('');
     };
     return(

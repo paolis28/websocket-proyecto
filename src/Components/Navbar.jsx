@@ -104,8 +104,10 @@ const NavbarGLobal = () => {
                     <div className="containerSesion">
                         {isLoggedIn ? (
                             <>
-                                <span>Hola, {nombre}</span>
-                                <button onClick={handleCerrarSesion}>Cerrar Sesion</button>
+                                <span>Hola, {nombre}</span>{" "}
+                                <button onClick={handleCerrarSesion}>
+                                    Cerrar Sesion
+                                </button>
                             </>
                         ) : (
                             <>
