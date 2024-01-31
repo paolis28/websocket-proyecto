@@ -1,46 +1,27 @@
-.containerGlobalChat{
-    background-color: rgba(255, 222, 222, 0.274);
-    width: 80%;
-    height: 60%;
-    padding: 2%;
-    position: absolute;
-}
-
-.ul-mensajes{
-    /* background-color: #ebe700; */
-}
-
-.li-mensajes{
-    list-style: none;
-    color: rgb(0, 0, 0);
-    border: 3px solid rgb(237, 237, 237);
-    background-color: rgba(255, 252, 247, 0.858);
-    width: 40%;
-    border-radius: 8px;
-    font-size: 1.2em;
-}
-
-.formMensajes{
-    /* background-color: rgba(243, 243, 243, 0.763); */
-    width: 80%;
-    border: 1px solid #60006245;
-    /* justify-content: flex-end;
+.chat-room-container{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
-    flex-direction: column; */
+    flex-direction: column;
+    margin: 16px;
 }
 
-.formMensajes > input{
-    background-color: rgba(255, 255, 255, 0.705);
-    width: 85%;
-    font-size: 1.3em;
-    outline: rgb(216, 216, 216);
-    border-radius: 5px;
+.room-name{
+    margin-top: 0;
 }
 
-.formMensajes > button{
-    background-color: #600062d2;
-    width: 15%;
-    font-size: 1.3em;
-    border-radius: 5px;
-    color: #ebe700;
+.received-message{
+    background-color: #c2c2c2;
+    margin-right: auto;
+}
+
+.send-message-button{
+    font-size: 28px;
+    font-weight: 600;
+    color: white;
+    background-color: #31a24c;
+    padding: 24px 12px;
+    border: none;
 }

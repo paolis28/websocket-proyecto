@@ -22,7 +22,7 @@ const NavbarGLobal = () => {
             setIsLoggedIn(true);
             setNombre(localStorage.getItem('nombre'));
         }
-    })
+    }, [])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -104,7 +104,7 @@ const NavbarGLobal = () => {
                     <div className="containerSesion">
                         {isLoggedIn ? (
                             <>
-                                <span>Hola, {nombre}</span>{" "}
+                                {/* <span>Hola, {nombre}</span> {" "}*/}
                                 <button onClick={handleCerrarSesion}>
                                     Cerrar Sesion
                                 </button>
