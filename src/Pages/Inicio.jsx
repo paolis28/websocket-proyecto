@@ -6,45 +6,32 @@ import Footer from '../Components/Footer';
 import AgregarRepartidor from '../Components/AgregarRepartidor';
 
 const Inicio = () => {
-  const [repartidoresDisponibles, setRepartidoresDisponibles] = useState([]);
-  const [consultando, setConsultando] = useState(false);
+  const [obtenerRepartidores, setObtenerRepartidores] = useState([]);
 
   useEffect(() => {
-    obtenerRepartidoresDisponibles();
+    getRepartidores();
+    obtenerResClientes();
   }, []); 
   
-  const obtenerRepartidoresDisponibles = async () => {
-    if (consultando) return; 
-    setConsultando(true);
-    try {
-      const response = await axios.get("http://localhost:3000/repartidores-disponibles");
-      if (response.status === 200) {
-        setRepartidoresDisponibles(response.data);
-      } else {
-        console.error("Error al obtener los repartidores disponibles:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error al obtener los repartidores disponibles:", error);
-    } finally {
-      setConsultando(false);
-    }
-  };
+  const getRepartidores = async ()=>{
+    const NewRepartidor = await axios.get('http://localhost:3000/Repartidor/conseguirRepartidor')
+    console.log(NewRepartidor.data.repartidor);
+    setObtenerRepartidores(NewRepartidor.data.repartidor)
+  }
 
-  const agregarRepartidor = async (nuevoRepartidor) => {
+  const obtenerResClientes = async ()=>{
     try {
-      const response = await axios.post("http://localhost:3000/actualizar-repartidores-disponibles", {
-        repartidores: [...repartidoresDisponibles, nuevoRepartidor]
-      });
-      if (response.status === 200) {
-        console.log("Repartidor agregado correctamente");
-        obtenerRepartidoresDisponibles(); 
-      } else {
-        console.error("Error al agregar el repartidor:", response.statusText);
+      const res = await fetch('http://localhost:3000/Repartidor/ObtenerRapartidorNuevo');
+      if(!res.ok){
+        throw new Error(`Error: ${res.status} - ${res.statusText}`);
       }
+      console.log(res.data);
     } catch (error) {
-      console.error("Error al agregar el repartidor:", error);
+      console.log("Error ante la notificacion",error);
+    }finally{
+      obtenerResClientes();
     }
-  };
+  }
 
   return (
     <>
@@ -53,11 +40,13 @@ const Inicio = () => {
       <div>
         <h1>Repartidores Disponibles y nuevos</h1>
         <ul>
-          {repartidoresDisponibles.map(repartidor => (
-            <li key={repartidor.id}>{repartidor.nombre}</li>
-          ))}
+          {obtenerRepartidores.length>0 ? obtenerRepartidores.map((repartidor,i) => (
+          <div key={i}>
+          <li>{repartidor.nombre}</li>
+          </div>
+          )):null}
         </ul>
-        <AgregarRepartidor onAgregarRepartidor={agregarRepartidor} />
+        <AgregarRepartidor/>
       </div>
       <Footer/>
     </>

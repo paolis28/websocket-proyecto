@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-const AgregarRepartidor = ({ onAgregarRepartidor }) => {
+const AgregarRepartidor = () => {
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const nuevoRepartidor = { nombre, direccion };
-    onAgregarRepartidor(nuevoRepartidor);
-    setNombre('');
-    setDireccion('');
+    
+    try {
+      const NewRepartidor = await axios.post('http://localhost:3000/Repartidor/crearRepartidor',{
+        nombre : nombre,
+        direccion: direccion
+      });
+      if(NewRepartidor){
+        alert("Repartidor agregado")
+      }
+    } catch (error) {
+      console.log("No se pudod agregar repartidor",error);
+    }
   };
 
   return (
